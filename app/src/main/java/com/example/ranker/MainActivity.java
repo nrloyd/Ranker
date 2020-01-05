@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        
+        initializeDisplayContent();
+    }
+
+    private void initializeDisplayContent() {
     }
 
     @Override
