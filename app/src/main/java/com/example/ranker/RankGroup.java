@@ -25,5 +25,8 @@ public class RankGroup {
         mTitle = title;
     }
 
+    public String toString(){
+        return mTitle;
+    }
 
 }

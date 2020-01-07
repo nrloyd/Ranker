@@ -11,6 +11,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +38,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeDisplayContent() {
+        final ListView listGroups = findViewById(R.id.list_groups);
+
+        List<RankGroup> groups = DataManager.getInstance().getGroups();
+        ArrayAdapter<RankGroup> adapterGroups = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, groups);
+
+        listGroups.setAdapter(adapterGroups);
     }
 
     @Override
