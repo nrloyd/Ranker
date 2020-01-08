@@ -1,5 +1,6 @@
 package com.example.ranker;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeDisplayContent() {
+
+        //populate list with group names
         final ListView listGroups = findViewById(R.id.list_groups);
 
         List<RankGroup> groups = DataManager.getInstance().getGroups();
@@ -45,6 +49,17 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, groups);
 
         listGroups.setAdapter(adapterGroups);
+
+        //set onclick for each item
+        listGroups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, RankerActivity.class);
+                RankGroup group = (RankGroup) listGroups.getItemAtPosition(position);
+                intent.putExtra(RankerActivity.GROUP_INFO, group);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
