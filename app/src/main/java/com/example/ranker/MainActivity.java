@@ -8,6 +8,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.view.Menu;
@@ -19,6 +21,8 @@ import android.widget.ListView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private GroupRecyclerAdapter groupRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,27 +43,24 @@ public class MainActivity extends AppCompatActivity {
         initializeDisplayContent();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        groupRecyclerAdapter.notifyDataSetChanged();
+    }
+
     private void initializeDisplayContent() {
 
         //populate list with group names
-        final ListView listGroups = findViewById(R.id.list_groups);
+        //final ListView listGroups = findViewById(R.id.list_groups);
+        final RecyclerView recyclerGroups = (RecyclerView) findViewById(R.id.list_groups);
+        final LinearLayoutManager groupsLayoutManager = new LinearLayoutManager(this);
+        recyclerGroups.setLayoutManager(groupsLayoutManager);
 
         List<RankGroup> groups = DataManager.getInstance().getGroups();
-        ArrayAdapter<RankGroup> adapterGroups = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, groups);
 
-        listGroups.setAdapter(adapterGroups);
-
-        //set onclick for each item
-        listGroups.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, RankerActivity.class);
-                RankGroup group = (RankGroup) listGroups.getItemAtPosition(position);
-                intent.putExtra(RankerActivity.GROUP_INFO, group);
-                startActivity(intent);
-            }
-        });
+        groupRecyclerAdapter = new GroupRecyclerAdapter(this, groups);
+        recyclerGroups.setAdapter(groupRecyclerAdapter);
     }
 
     @Override

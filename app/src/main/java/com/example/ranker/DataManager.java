@@ -23,7 +23,7 @@ public class DataManager {
     private void initializeExampleGroups() {
         String[] group1 = {"Ravens", "Bengals", "Browns", "Steelers"};
         mGroups.add(new RankGroup("AFC North", group1));
-        String[] group2 = {"Justin, JC, Chris, Joey, Lance"};
+        String[] group2 = {"Justin", "JC", "Chris", "Joey", "Lance"};
         mGroups.add(new RankGroup("NSYNC members", group2));
         String[] group3 =
                 {"San Francisco", "Los Angeles", "Oakland", "Long Beach", "San Jose",
