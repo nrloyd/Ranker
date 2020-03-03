@@ -39,4 +39,18 @@ public class BinaryTreeTest {
     public void testToString() {
         assertEquals(tree.toString(), "six - six\n | \nfive\n | \nfour - four - four\n | \nthree - three");
     }
+
+    @Test
+    public void testSize() {
+        assertEquals(tree.size(), 8);
+        assertEquals(level3.size(),5);
+    }
+
+    @Test
+    public void testToStringArray() {
+        String[] ranks = new String[]{"1","1","3","4","4","4","7","7"};
+        String[] strings = new String[]{"six","six","five","four","four","four","three","three"};
+        String[][] treeList = new String[][]{ranks,strings};
+        assertEquals(tree.toStringArray(), treeList);
+    }
 }

@@ -29,7 +29,7 @@ public class DataManager {
                 {"San Francisco", "Los Angeles", "Oakland", "Long Beach", "San Jose",
                         "San Diego", "Sacramento", "Fresno", "Anaheim", "Bakersfield"};
         mGroups.add(new RankGroup("California cities", group3));
-        String[] group4 = {"ABC", "NBC", "PBS", "FOX", "CBS"};
+        String[] group4 = {"ABC", "NBC", "PBS", "FOX", "CBS", "Univision"};
         mGroups.add(new RankGroup("TV channels", group4));
     }
 }

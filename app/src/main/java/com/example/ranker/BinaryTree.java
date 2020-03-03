@@ -18,8 +18,12 @@ public class BinaryTree {
     public BinaryTree left() { return left; }
 
     public void setLeft(BinaryTree left) {
-        this.left = left;
-        left.notRoot();
+        if(left == null) {
+            this.left = null;
+        } else {
+            this.left = left;
+            left.notRoot();
+        }
     }
 
     public boolean hasLeft() { return left != null; }
@@ -38,6 +42,13 @@ public class BinaryTree {
     public boolean isRoot() { return isRoot; }
 
     public void notRoot() { this.isRoot = false; }
+
+    public int size() {
+        int size = 1;
+        if(this.hasLeft()) size += this.left.size();
+        if(this.hasRight()) size += this.right.size();
+        return size;
+    }
 
     //continue traversing rightward down the tree until reaching the rightmost node
     public BinaryTree rightMost() {
@@ -58,6 +69,31 @@ public class BinaryTree {
         if(this.hasLeft()){
             toReturn = toReturn + "\n | \n" + this.left().toString();
         }
+        return toReturn;
+    }
+
+    public String[][] toStringArray() {
+        String[][] toReturn = new String[2][this.size()];
+        int currentRank = 1;
+        int index = 0;
+        BinaryTree currentRoot = this;
+        while (currentRoot != null) {
+            toReturn[0][index] = Integer.toString(currentRank);
+            toReturn[1][index] = currentRoot.getData();
+            index++;
+
+            BinaryTree currentRight = currentRoot;
+            while (currentRight.hasRight()) {
+                currentRight = currentRight.right();
+                toReturn[0][index] = Integer.toString(currentRank);
+                toReturn[1][index] = currentRight.getData();
+                index++;
+            }
+
+            currentRank = index + 1;
+            currentRoot = currentRoot.left();
+        }
+
         return toReturn;
     }
 
