@@ -35,7 +35,7 @@ public class ListDisplayTest {
             new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void displayGroupList() {
+    public void displayGroupList() {//DEPRECATED
 
         //click on "NSYNC members"
         onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
@@ -93,14 +93,13 @@ public class ListDisplayTest {
         String[] ranks = new String[]{"1","2","3","3"};
         String[] items = new String[]{"Steelers","Ravens","Bengals","Browns"};
 
-        //TODO:uncomment this when R.id.rank_list is created
-        /*for(int index = 0; index < items.length; index++) {
-            onView(withId(R.id.rank_list)).perform(scrollToPosition(index))
+        for(int index = 0; index < items.length; index++) {
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
                     .check(matches(atPosition(index, hasDescendant(withText(ranks[index])))));
             onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
                     .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
 
-        }*/
+        }
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {

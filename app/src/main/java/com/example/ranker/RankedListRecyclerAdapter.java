@@ -15,12 +15,14 @@ import java.util.List;
 public class RankedListRecyclerAdapter extends RecyclerView.Adapter<RankedListRecyclerAdapter.ViewHolder> {
 
     private final Context context;
+    private final List<String> ranks;
     private final List<String> items;
     private final LayoutInflater layoutInflater;
 
 
-    public RankedListRecyclerAdapter(Context context, List<String> items) {
+    public RankedListRecyclerAdapter(Context context, List<String> ranks, List<String> items) {
         this.context = context;
+        this.ranks = ranks;
         this.items = items;
         this.layoutInflater = LayoutInflater.from(context);
     }
@@ -34,7 +36,9 @@ public class RankedListRecyclerAdapter extends RecyclerView.Adapter<RankedListRe
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String rank = ranks.get(position);
         String item = items.get(position);
+        holder.textRank.setText(rank);
         holder.textTitle.setText(item);
         holder.currentPosition = position;
 
@@ -47,12 +51,14 @@ public class RankedListRecyclerAdapter extends RecyclerView.Adapter<RankedListRe
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
+        public final TextView textRank;
         public final TextView textTitle;
         public int currentPosition;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
+            textRank = (TextView) itemView.findViewById(R.id.rank_text);
             textTitle = (TextView) itemView.findViewById(R.id.item_text);
 
             /*itemView.setOnClickListener(new View.OnClickListener() {

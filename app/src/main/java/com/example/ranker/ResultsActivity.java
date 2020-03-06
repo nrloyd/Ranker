@@ -48,9 +48,10 @@ public class ResultsActivity extends AppCompatActivity {
         final LinearLayoutManager itemsLayoutManager = new LinearLayoutManager(this);
         recyclerItems.setLayoutManager(itemsLayoutManager);
 
-        List<String> items = new ArrayList<String>(Arrays.asList(mGroup.getStrings()));
+        List<String> ranks = new ArrayList<String>(Arrays.asList(mGroup.presentRanking()[0]));
+        List<String> items = new ArrayList<String>(Arrays.asList(mGroup.presentRanking()[1]));
 
-        RankedListRecyclerAdapter rankedListRecyclerAdapter = new RankedListRecyclerAdapter(this, items);
+        RankedListRecyclerAdapter rankedListRecyclerAdapter = new RankedListRecyclerAdapter(this, ranks, items);
         recyclerItems.setAdapter(rankedListRecyclerAdapter);
     }
 }
