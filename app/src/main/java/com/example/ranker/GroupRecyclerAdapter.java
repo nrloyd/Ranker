@@ -55,8 +55,8 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, ResultsActivity.class);
-                    intent.putExtra(ResultsActivity.GROUP_INFO, currentPosition);
+                    Intent intent = new Intent(context, RankerActivity.class);
+                    intent.putExtra(RankerActivity.GROUP_INFO, currentPosition);
                     context.startActivity(intent);
                 }
             });

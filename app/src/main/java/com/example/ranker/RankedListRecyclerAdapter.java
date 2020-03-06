@@ -55,14 +55,14 @@ public class RankedListRecyclerAdapter extends RecyclerView.Adapter<RankedListRe
             super(itemView);
             textTitle = (TextView) itemView.findViewById(R.id.item_text);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            /*itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ResultsActivity.class);
                     intent.putExtra(ResultsActivity.GROUP_INFO, currentPosition);
                     context.startActivity(intent);
                 }
-            });
+            });*/
 
         }
     }

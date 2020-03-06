@@ -55,6 +55,54 @@ public class ListDisplayTest {
         }
     }
 
+    @Test
+    public void rankAndDisplayGroup() {
+
+        //click on "AFC North"
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+
+        //check that group title says "AFC North"
+        onView(withId(R.id.group_title)).check(matches(withText("AFC North")));
+
+        //check that left option says "Ravens" and right option says "Bengals"; select left
+        onView(withId(R.id.left_option_name)).check(matches(withText("Ravens")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Bengals")));
+        onView(withId(R.id.left_option)).perform(click());
+
+        //check that left option says "Browns" and right option says "Steelers"; select right
+        onView(withId(R.id.left_option_name)).check(matches(withText("Browns")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Steelers")));
+        onView(withId(R.id.right_option)).perform(click());
+
+        //check that left option says "Ravens" and right option says "Steelers"; select right
+        onView(withId(R.id.left_option_name)).check(matches(withText("Ravens")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Steelers")));
+        onView(withId(R.id.right_option)).perform(click());
+
+        //check that left option says "Ravens" and right option says "Browns"; select left
+        onView(withId(R.id.left_option_name)).check(matches(withText("Ravens")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Browns")));
+        onView(withId(R.id.left_option)).perform(click());
+
+        //check that left option says "Bengals" and right option says "Browns"; select "Tie"
+        onView(withId(R.id.left_option_name)).check(matches(withText("Bengals")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Browns")));
+        onView(withId(R.id.tie_option)).perform(click());
+
+        //check that each element of the table matches the corresponding string in the ranked group
+        String[] ranks = new String[]{"1","2","3","3"};
+        String[] items = new String[]{"Steelers","Ravens","Bengals","Browns"};
+
+        //TODO:uncomment this when R.id.rank_list is created
+        /*for(int index = 0; index < items.length; index++) {
+            onView(withId(R.id.rank_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(ranks[index])))));
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
+
+        }*/
+    }
+
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
 
         checkNotNull(itemMatcher);
