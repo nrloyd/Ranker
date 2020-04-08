@@ -179,6 +179,7 @@ public class RankGroup implements Parcelable {
 
             if(first.hasLeft() && second.hasLeft()) {
                 mStack.push(new BinaryTree[]{first.left(), second.left()});
+                second.setLeft(null);
             } else if(second.hasLeft()) {
                 first.setLeft(second.left());
                 second.setLeft(null);
