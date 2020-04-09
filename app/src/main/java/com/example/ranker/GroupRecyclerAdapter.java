@@ -55,9 +55,18 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, RankerActivity.class);
-                    intent.putExtra(RankerActivity.GROUP_INFO, currentPosition);
-                    context.startActivity(intent);
+                    //if unsorted, start RankerActivity
+                    if(groups.get(currentPosition).isSorted() == 0) {
+                        Intent intent = new Intent(context, RankerActivity.class);
+                        intent.putExtra(RankerActivity.GROUP_INFO, currentPosition);
+                        context.startActivity(intent);
+                    } //if sorted, skip straight to ResultsActivity
+                    else {
+                        Intent intent = new Intent(context, ResultsActivity.class);
+                        intent.putExtra(RankerActivity.GROUP_INFO, currentPosition);
+                        context.startActivity(intent);
+                    }
+
                 }
             });
         }

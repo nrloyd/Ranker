@@ -5,6 +5,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.Espresso;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -33,27 +34,6 @@ public class ListDisplayTest {
     @Rule
     public ActivityTestRule<MainActivity> mainActivityRule =
             new ActivityTestRule<>(MainActivity.class);
-
-    @Test
-    public void displayGroupList() {//DEPRECATED
-
-        //click on "NSYNC members"
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
-
-        List<RankGroup> groups = DataManager.getInstance().getGroups();
-        RankGroup nsync = groups.get(1);
-
-        //check that group title says "NSYNC members"
-        onView(withId(R.id.group_title)).check(matches(withText(nsync.getTitle())));
-
-        //check that each element of the table matches the corresponding string in the group
-        for(int index = 0; index < nsync.getStrings().length; index++) {
-
-            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
-                    .check(matches(atPosition(index, hasDescendant(withText(nsync.getStrings()[index])))));
-
-        }
-    }
 
     @Test
     public void rankAndDisplayGroup() {
@@ -100,6 +80,59 @@ public class ListDisplayTest {
                     .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
 
         }
+    }
+
+    @Test
+    public void clickOnOneItemGroup() {
+
+        //click on "One item"
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(4,click()));
+
+        //check the lone element of the table matches the corresponding string in the ranked group
+        onView(withId(R.id.ranked_list)).perform(scrollToPosition(0))
+                .check(matches(atPosition(0, hasDescendant(withText("1")))));
+        onView(withId(R.id.ranked_list)).perform(scrollToPosition(0))
+                .check(matches(atPosition(0, hasDescendant(withText("item")))));
+
+    }
+
+    @Test
+    public void clickOnSortedGroup() {
+
+        //click on "Famous Ducks"
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+
+        //rank items
+        onView(withId(R.id.left_option)).perform(click());
+        onView(withId(R.id.left_option)).perform(click());
+        onView(withId(R.id.right_option)).perform(click());
+
+        //check that each element of the table matches the corresponding string in the ranked group
+        String[] ranks = new String[]{"1","2","3"};
+        String[] items = new String[]{"Donald","Daisy","Scrooge"};
+
+        for(int index = 0; index < items.length; index++) {
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(ranks[index])))));
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
+
+        }
+
+        Espresso.pressBack();
+
+        //click on "Famous Ducks" again
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+
+        //check that each element of the table matches the corresponding string in the ranked group again
+        for(int index = 0; index < items.length; index++) {
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(ranks[index])))));
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
+
+        }
+
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {

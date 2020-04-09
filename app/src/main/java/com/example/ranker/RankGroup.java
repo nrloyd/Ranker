@@ -22,10 +22,18 @@ public class RankGroup implements Parcelable {
     public RankGroup(String title, String[] strings){
         mTitle = title;
         mStrings = strings;
-        mSorted = 0;
-        mInitialized = 0;
-        mStack = new Stack<BinaryTree[]>();
-        itemsToCompare = new BinaryTree[2];
+
+        if(strings.length > 1) {
+            mSorted = 0;
+            mInitialized = 0;
+            mStack = new Stack<BinaryTree[]>();
+            itemsToCompare = new BinaryTree[2];
+        } else {
+            mSorted = 1;
+            mInitialized = 1;
+            mItems = new BinaryTree[1];
+            mItems[0] = new BinaryTree(strings[0]);
+        }
     }
 
     private RankGroup(Parcel source) {

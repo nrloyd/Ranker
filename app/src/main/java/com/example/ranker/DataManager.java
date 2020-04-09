@@ -31,5 +31,9 @@ public class DataManager {
         mGroups.add(new RankGroup("California cities", group3));
         String[] group4 = {"ABC", "NBC", "PBS", "FOX", "CBS", "Univision"};
         mGroups.add(new RankGroup("TV channels", group4));
+        String[] group5 = {"item"};
+        mGroups.add(new RankGroup("One item", group5));
+        String[] group6 = {"Donald", "Scrooge", "Daisy"};
+        mGroups.add(new RankGroup("Famous ducks", group6));
     }
 }
