@@ -133,6 +133,49 @@ public class ListDisplayTest {
 
         }
 
+        //click on "Back to List"
+        onView(withId(R.id.back_button)).perform(click());
+
+        //click on "Famous Ducks" again
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+
+        //check that each element of the table matches the corresponding string in the ranked group again
+        for(int index = 0; index < items.length; index++) {
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(ranks[index])))));
+            onView(withId(R.id.ranked_list)).perform(scrollToPosition(index))
+                    .check(matches(atPosition(index, hasDescendant(withText(items[index])))));
+
+        }
+    }
+
+    @Test
+    public void resetListButton() {
+        //click on "Famous Ducks"
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+
+        //rank items
+        onView(withId(R.id.left_option)).perform(click());
+        onView(withId(R.id.left_option)).perform(click());
+        onView(withId(R.id.right_option)).perform(click());
+
+        //click on "Re-rank list" button
+        onView(withId(R.id.reset_button)).perform(click());
+
+        //check that the options say "Donald" and "Scrooge"; select "Donald"
+        onView(withId(R.id.left_option_name)).check(matches(withText("Donald")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Scrooge")));
+        onView(withId(R.id.left_option)).perform(click());
+
+        Espresso.pressBack();
+
+        //click on "Famous Ducks" again
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+
+        //check that the options say "Donald" and "Daisy"; select "Daisy"
+        onView(withId(R.id.left_option_name)).check(matches(withText("Donald")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Daisy")));
+        onView(withId(R.id.right_option)).perform(click());
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {

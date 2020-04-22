@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -51,7 +53,7 @@ public class ResultsActivity extends AppCompatActivity {
 
     private void initializeDisplayContent() {
         //get group information from intent
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         groupPosition = intent.getIntExtra(GROUP_INFO, GROUP_POSITION);
         Log.d(TAG, "GROUP_INFO: " + GROUP_INFO);
         mGroup = DataManager.getInstance().getGroups().get(groupPosition);
@@ -66,5 +68,26 @@ public class ResultsActivity extends AppCompatActivity {
 
         RankedListRecyclerAdapter rankedListRecyclerAdapter = new RankedListRecyclerAdapter(this, ranks, items);
         recyclerItems.setAdapter(rankedListRecyclerAdapter);
+
+        Button resetButton = findViewById(R.id.reset_button);
+        resetButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mGroup.reset();
+                Intent resetIntent = new Intent(ResultsActivity.this, RankerActivity.class);
+                intent.putExtra(RankerActivity.GROUP_INFO, groupPosition);
+                startActivity(resetIntent);
+            }
+        });
+
+        Button backToMainButton = findViewById(R.id.back_button);
+        backToMainButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResultsActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 }
