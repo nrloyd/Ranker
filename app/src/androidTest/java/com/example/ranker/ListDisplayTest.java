@@ -22,6 +22,7 @@ import java.util.List;
 import static androidx.core.util.Preconditions.checkNotNull;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -176,6 +177,26 @@ public class ListDisplayTest {
         onView(withId(R.id.left_option_name)).check(matches(withText("Donald")));
         onView(withId(R.id.right_option_name)).check(matches(withText("Daisy")));
         onView(withId(R.id.right_option)).perform(click());
+    }
+
+    @Test
+    public void createNewList() {
+        //click the new list button
+        onView(withId(R.id.fab)).perform(click());
+
+        //type a list name and contents
+        onView(withId(R.id.edit_list_name)).perform(typeText("Test list title"));
+        onView(withId(R.id.edit_list_content)).perform(typeText("Option 1\nOption 2\nOption 3"));
+
+        //click "create"
+        onView(withId(R.id.create_list_button)).perform(click());
+
+        //check the last option on the list of lists
+        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(6,click()));
+
+        //check that the options say "Option 1" and "Option 2"
+        onView(withId(R.id.left_option_name)).check(matches(withText("Option 1")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Option 2")));
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
