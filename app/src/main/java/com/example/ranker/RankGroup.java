@@ -47,8 +47,13 @@ public class RankGroup implements Parcelable {
         return mStrings;
     }
 
+    public String getFormattedStrings() {
+        return String.join("\n",mStrings);
+    }
+
     public void setStrings(String[] strings) {
         mStrings = strings;
+        mInitialized = 0;
     }
 
     public String getTitle() {

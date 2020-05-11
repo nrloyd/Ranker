@@ -6,6 +6,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.matcher.BoundedMatcher;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
@@ -17,11 +18,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.List;
-
 import static androidx.core.util.Preconditions.checkNotNull;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
@@ -40,7 +40,8 @@ public class ListDisplayTest {
     public void rankAndDisplayGroup() {
 
         //click on "AFC North"
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check that group title says "AFC North"
         onView(withId(R.id.group_title)).check(matches(withText("AFC North")));
@@ -87,7 +88,8 @@ public class ListDisplayTest {
     public void clickOnOneItemGroup() {
 
         //click on "One item"
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(4,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(4,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check the lone element of the table matches the corresponding string in the ranked group
         onView(withId(R.id.ranked_list)).perform(scrollToPosition(0))
@@ -101,7 +103,8 @@ public class ListDisplayTest {
     public void clickOnSortedGroup() {
 
         //click on "Famous Ducks"
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //rank items
         onView(withId(R.id.left_option)).perform(click());
@@ -123,7 +126,8 @@ public class ListDisplayTest {
         Espresso.pressBack();
 
         //click on "Famous Ducks" again
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check that each element of the table matches the corresponding string in the ranked group again
         for(int index = 0; index < items.length; index++) {
@@ -138,7 +142,8 @@ public class ListDisplayTest {
         onView(withId(R.id.back_button)).perform(click());
 
         //click on "Famous Ducks" again
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check that each element of the table matches the corresponding string in the ranked group again
         for(int index = 0; index < items.length; index++) {
@@ -153,7 +158,8 @@ public class ListDisplayTest {
     @Test
     public void resetListButton() {
         //click on "Famous Ducks"
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //rank items
         onView(withId(R.id.left_option)).perform(click());
@@ -171,7 +177,8 @@ public class ListDisplayTest {
         Espresso.pressBack();
 
         //click on "Famous Ducks" again
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(5,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(5,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check that the options say "Donald" and "Daisy"; select "Daisy"
         onView(withId(R.id.left_option_name)).check(matches(withText("Donald")));
@@ -189,14 +196,42 @@ public class ListDisplayTest {
         onView(withId(R.id.edit_list_content)).perform(typeText("Option 1\nOption 2\nOption 3"));
 
         //click "create"
-        onView(withId(R.id.create_list_button)).perform(click());
+        ViewActions.closeSoftKeyboard();
+        onView(withId(R.id.save_list_button)).perform(click());
 
         //check the last option on the list of lists
-        onView(withId(R.id.list_groups)).perform(RecyclerViewActions.actionOnItemAtPosition(6,click()));
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(6,CustomActions.clickChildViewWithId(R.id.text_title)));
 
         //check that the options say "Option 1" and "Option 2"
         onView(withId(R.id.left_option_name)).check(matches(withText("Option 1")));
         onView(withId(R.id.right_option_name)).check(matches(withText("Option 2")));
+    }
+
+    @Test
+    public void editExistingList() {
+        //click on the "Edit" button next to "AFC North"
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,CustomActions.clickChildViewWithId(R.id.edit_list_button)));
+
+        //replace list name and content with something else
+        onView(withId(R.id.edit_list_name)).perform(replaceText("NFC North"));
+        onView(withId(R.id.edit_list_content)).perform(replaceText("Bears\nLions\nPackers\nVikings"));
+        onView(withId(R.id.save_list_button)).perform(click());
+
+        //check that the changed name is reflected in the list of lists
+        onView(withId(R.id.list_groups)).perform(scrollToPosition(0))
+                .check(matches(atPosition(0, hasDescendant(withText("NFC North")))));
+
+        //click on "NFC North"
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,CustomActions.clickChildViewWithId(R.id.text_title)));
+
+        //check that the options say "Bears" and "Lions"
+        onView(withId(R.id.left_option_name)).check(matches(withText("Bears")));
+        onView(withId(R.id.right_option_name)).check(matches(withText("Lions")));
+
+
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {

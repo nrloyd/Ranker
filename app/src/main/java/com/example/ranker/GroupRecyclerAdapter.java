@@ -67,7 +67,7 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                     } //if sorted, skip straight to ResultsActivity
                     else {
                         Intent intent = new Intent(context, ResultsActivity.class);
-                        intent.putExtra(RankerActivity.GROUP_INFO, currentPosition);
+                        intent.putExtra(ResultsActivity.GROUP_INFO, currentPosition);
                         context.startActivity(intent);
                     }
                 }
@@ -77,6 +77,7 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CreateListActivity.class);
+                    intent.putExtra(CreateListActivity.GROUP_INFO, currentPosition);
                     context.startActivity(intent);
                 }
             });
