@@ -14,9 +14,12 @@ import androidx.test.espresso.contrib.RecyclerViewActions;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import static androidx.core.util.Preconditions.checkNotNull;
 import static androidx.test.espresso.Espresso.onView;
@@ -35,6 +38,25 @@ public class ListDisplayTest {
     @Rule
     public ActivityTestRule<MainActivity> mainActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    @Before
+    public void replaceDataManager() {
+        List<RankGroup> groups = DataManager.returnNewInstance().getGroups();
+        String[] group1 = {"Ravens", "Bengals", "Browns", "Steelers"};
+        groups.add(new RankGroup("AFC North", group1));
+        String[] group2 = {"Justin", "JC", "Chris", "Joey", "Lance"};
+        groups.add(new RankGroup("NSYNC members", group2));
+        String[] group3 =
+                {"San Francisco", "Los Angeles", "Oakland", "Long Beach", "San Jose",
+                        "San Diego", "Sacramento", "Fresno", "Anaheim", "Bakersfield"};
+        groups.add(new RankGroup("California cities", group3));
+        String[] group4 = {"ABC", "NBC", "PBS", "FOX", "CBS", "Univision"};
+        groups.add(new RankGroup("TV channels", group4));
+        String[] group5 = {"item"};
+        groups.add(new RankGroup("One item", group5));
+        String[] group6 = {"Donald", "Scrooge", "Daisy"};
+        groups.add(new RankGroup("Famous ducks", group6));
+    }
 
     @Test
     public void rankAndDisplayGroup() {

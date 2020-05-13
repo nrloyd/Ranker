@@ -11,29 +11,16 @@ public class DataManager {
     public static DataManager getInstance(){
         if(ourInstance == null){
             ourInstance = new DataManager();
-            ourInstance.initializeExampleGroups();
         }
+        return ourInstance;
+    }
+
+    public static DataManager returnNewInstance() {
+        ourInstance = new DataManager();
         return ourInstance;
     }
 
     public List<RankGroup> getGroups() {
         return mGroups;
-    }
-
-    private void initializeExampleGroups() {
-        String[] group1 = {"Ravens", "Bengals", "Browns", "Steelers"};
-        mGroups.add(new RankGroup("AFC North", group1));
-        String[] group2 = {"Justin", "JC", "Chris", "Joey", "Lance"};
-        mGroups.add(new RankGroup("NSYNC members", group2));
-        String[] group3 =
-                {"San Francisco", "Los Angeles", "Oakland", "Long Beach", "San Jose",
-                        "San Diego", "Sacramento", "Fresno", "Anaheim", "Bakersfield"};
-        mGroups.add(new RankGroup("California cities", group3));
-        String[] group4 = {"ABC", "NBC", "PBS", "FOX", "CBS", "Univision"};
-        mGroups.add(new RankGroup("TV channels", group4));
-        String[] group5 = {"item"};
-        mGroups.add(new RankGroup("One item", group5));
-        String[] group6 = {"Donald", "Scrooge", "Daisy"};
-        mGroups.add(new RankGroup("Famous ducks", group6));
     }
 }

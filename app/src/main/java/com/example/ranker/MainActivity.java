@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -57,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
         recyclerGroups.setLayoutManager(groupsLayoutManager);
 
         List<RankGroup> groups = DataManager.getInstance().getGroups();
+
+        final TextView emptyListText = (TextView) findViewById(R.id.empty_list_text);
+        if(groups.size() > 0) emptyListText.setVisibility(View.GONE);
 
         groupRecyclerAdapter = new GroupRecyclerAdapter(this, groups);
         recyclerGroups.setAdapter(groupRecyclerAdapter);
