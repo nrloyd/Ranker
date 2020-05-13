@@ -75,7 +75,8 @@ public class ResultsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mGroup.reset();
                 Intent resetIntent = new Intent(ResultsActivity.this, RankerActivity.class);
-                intent.putExtra(RankerActivity.GROUP_INFO, groupPosition);
+                resetIntent.putExtra(RankerActivity.GROUP_INFO, groupPosition);
+                resetIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(resetIntent);
             }
         });
