@@ -256,6 +256,17 @@ public class ListDisplayTest {
 
     }
 
+    @Test
+    public void deleteList() {
+        //click on the "Delete" button next to "California cities"
+        onView(withId(R.id.list_groups))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(2,CustomActions.clickChildViewWithId(R.id.delete_list_button)));
+
+        //check that the third item in the list (which used to be "California cities") now says "TV channels"
+        onView(withId(R.id.list_groups)).perform(scrollToPosition(0))
+                .check(matches(atPosition(2, hasDescendant(withText("TV channels")))));
+    }
+
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
 
         checkNotNull(itemMatcher);

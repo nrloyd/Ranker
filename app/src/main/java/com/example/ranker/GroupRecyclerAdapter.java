@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -49,12 +48,14 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
 
         public final TextView textTitle;
         public int currentPosition;
-        public final ImageButton button;
+        public final ImageButton editButton;
+        public final ImageButton deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textTitle = (TextView) itemView.findViewById(R.id.text_title);
-            button = (ImageButton) itemView.findViewById(R.id.edit_list_button);
+            editButton = (ImageButton) itemView.findViewById(R.id.edit_list_button);
+            deleteButton = (ImageButton) itemView.findViewById(R.id.delete_list_button);
 
             textTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,12 +74,20 @@ public class GroupRecyclerAdapter extends RecyclerView.Adapter<GroupRecyclerAdap
                 }
             });
 
-            button.setOnClickListener(new View.OnClickListener() {
+            editButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, CreateListActivity.class);
                     intent.putExtra(CreateListActivity.GROUP_INFO, currentPosition);
                     context.startActivity(intent);
+                }
+            });
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    groups.remove(currentPosition);
+                    GroupRecyclerAdapter.this.notifyDataSetChanged();
                 }
             });
         }
